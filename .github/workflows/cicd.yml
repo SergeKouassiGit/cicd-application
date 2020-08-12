@@ -23,5 +23,5 @@ jobs:
     - name: Générer le jar du projet
       run: mvn -B package --file pom.xml
     - name: PWD
-      run: pwd
+      run: pwd & ls -rtl
     
