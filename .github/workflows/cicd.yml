@@ -20,6 +20,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Générer le jar
+    - name: Générer le jar du projet
       run: mvn -B package --file pom.xml
     
