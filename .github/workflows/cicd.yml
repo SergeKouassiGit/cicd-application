@@ -23,7 +23,7 @@ jobs:
     - name: Générer le jar du projet
       run: mvn -B package --file pom.xml
     - name: Renomer le build
-      run: cp target/rest-service-0.0.1-SNAPSHOT.jar app.jar
+      run: mv target/rest-service-0.0.1-SNAPSHOT.jar app.jar
     - name: PWD
       run: ls -rtl target 
    
