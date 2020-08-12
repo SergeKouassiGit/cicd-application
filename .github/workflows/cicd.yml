@@ -24,4 +24,12 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: PWD
       run: pwd & ls -rtl
-    
+    - name: Copie du fichier sur le serveur AWS
+      uses: appleboy/scp-action@master
+      with:
+        host: 3.18.101.107
+        username: ${{ secrets.USER_AWS }}
+        port: 22
+        key: ${{ secrets.KEY_AWS }}
+        source: "/home/runner/work/cicd-application/cicd-application/target"
+        target: "/usr/webservices"
