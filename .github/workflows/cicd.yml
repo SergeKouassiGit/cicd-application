@@ -55,6 +55,7 @@ jobs:
         port: ${{ secrets.PORT_AWS }}
         script: |
           sudo mv /usr/webservice/target/rest-service-0.0.1-SNAPSHOT.jar /usr/webservice/greeting/app.jar
+          sudo chmod +x /usr/webservice/greeting/app.jar
           sudo systemctl start greeting
           sudo systemctl status greeting
     
