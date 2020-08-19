@@ -25,12 +25,24 @@ jobs:
     - name: PWD
       run: ls -rtl target 
     
-#    - name: Construire l'image docker
-#     uses: docker/build-push-action@v1.1.0
-#      with:
-#        username: ${{ secrets.DOCKER_USERNAME }}
-#        password: ${{ secrets.DOCKER_PASSWORD }}
-#        repository: sergekouassi/spring-greeting
-#        tags: 1.0.1
-#        tag_with_ref: true
-#        tag_with_sha: true
+    - name: Construire l'image docker
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: sergekouassi/spring-greeting
+        tags: 1.0.1
+        tag_with_ref: true
+        tag_with_sha: true
+    
+    - name: Démarrage / Redémarrage du conteneur docker sur le Serveur AWS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_AWS }}
+        username: ${{ secrets.USER_AWS }}
+        key: ${{ secrets.KEY_AWS }}
+        port: ${{ secrets.PORT_AWS }}
+        script: |
+          sudo docker stop serge-greeting
+          sudo docker run -d --rm --name serge-greeting -p 8082:8080 sergekouassi/spring-greeting:1.0.1
+          sudo docker ps
