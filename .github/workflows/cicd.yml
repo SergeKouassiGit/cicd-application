@@ -24,38 +24,13 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: PWD
       run: ls -rtl target 
-   
-    - name: Arret du service et création de backup
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_AWS }}
-        username: ${{ secrets.USER_AWS }}
-        key: ${{ secrets.KEY_AWS }}
-        port: ${{ secrets.PORT_AWS }}
-        script: |
-          sudo systemctl stop greeting
-          sudo mv /usr/webservice/greeting/app.jar /usr/webservice/greeting/app_old.jar
-   
-    - name: Copie du fichier sur le serveur AWS
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST_AWS }}
-        username: ${{ secrets.USER_AWS }}
-        port: ${{ secrets.PORT_AWS }}
-        key: ${{ secrets.KEY_AWS }}
-        source: "target/rest-service-0.0.1-SNAPSHOT.jar"
-        target: "/usr/webservice"
-
-    - name: Copie et démarage de l'application
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_AWS }}
-        username: ${{ secrets.USER_AWS }}
-        key: ${{ secrets.KEY_AWS }}
-        port: ${{ secrets.PORT_AWS }}
-        script: |
-          sudo mv /usr/webservice/target/rest-service-0.0.1-SNAPSHOT.jar /usr/webservice/greeting/app.jar
-          sudo chmod +x /usr/webservice/greeting/app.jar
-          sudo systemctl start greeting
-          sudo systemctl status greeting
     
+#    - name: Construire l'image docker
+#     uses: docker/build-push-action@v1.1.0
+#      with:
+#        username: ${{ secrets.DOCKER_USERNAME }}
+#        password: ${{ secrets.DOCKER_PASSWORD }}
+#        repository: sergekouassi/spring-greeting
+#        tags: 1.0.1
+#        tag_with_ref: true
+#        tag_with_sha: true
